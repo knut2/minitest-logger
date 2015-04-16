@@ -15,7 +15,9 @@ require 'knut-gempackager'
 require '../knut_pw.rb'
 $:.unshift('lib')
 require 'minitest-logger'
-$minitest_logger_version = "0.1.0"
+$minitest_logger_version = "0.1.1.beta"
+Minitest::Logger_VERSION = $minitest_logger_version #while it is beta
+
 
 #http://docs.rubygems.org/read/chapter/20
 gem_minitest_logger = Knut::Gem_packer.new('minitest-logger', $minitest_logger_version){ |gemdef, s|
@@ -89,14 +91,14 @@ end
 
 #~ desc "Gem minitest-logger"
 #~ task :default => :check
-#~ task :default => :test
+task :default => :test
 #~ task :default => :gem
 #~ task :default => :install
 #~ task :default => :hanna
 #~ task :default => :rdoc_local
 #~ task :default => :links
 #~ task :default => :ftp_rdoc
-task :default => :push
+#~ task :default => :push
 
 
 if $0 == __FILE__
@@ -104,3 +106,9 @@ if $0 == __FILE__
   app[:default].invoke
 end
 __END__
+
+Versions:
+0.1.0 2015-04-16 https://rubygems.org/gems/minitest-logger/versions/0.1.0
+* Initial version
+
+0.1.1

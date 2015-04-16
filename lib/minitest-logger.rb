@@ -115,7 +115,7 @@ Example:
       attr_accessor :log
   end
     
-  Logger_VERSION = '0.1.0'
+  Logger_VERSION = '0.1.1'
   module Assertions
 =begin rdoc
 Evaluate block and collect the messages of a logger.
@@ -149,6 +149,7 @@ independent of the value of this parameter.
       return logtext
     end #logger_evaluation
 =begin rdoc
+Define new assertion assert_log
 
 ==Options
 ===Define test logger (:log)
@@ -173,7 +174,6 @@ See also #logger_evaluation for more information
       assert exp == act, msg
       
 =end
-
     def assert_log(expected, msg=nil, options = {}, &block)
       if msg.is_a?(Hash)
         options = msg
