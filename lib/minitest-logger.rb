@@ -105,14 +105,17 @@ Example:
     def setup # :nodoc:
       @testee = Testee.new(...)
       @log = @testee.log
+      # @formatter = Log4r::StdoutOutputter
     end
     ...
   end
 =end  
   class Test
-      #define the logger for Assertions#assert_log.
+      #Define the logger for Assertions#assert_log.
       #It is recommended to define the logger in #setup or as an option of Assertions#assert_log
       attr_accessor :log
+      #Define a formatter for the temporary logger Log4r::StdoutOutputter
+      attr_accessor :formatter
   end
     
   Logger_VERSION = '0.1.1'
@@ -127,8 +130,12 @@ of adapt the logger itself.
 Attention: The level of the logger has a higher priority the the level of the outputter.
 If the logger logs no DEBUG-messages, the output will also be empty, 
 independent of the value of this parameter.
+
+==Argument formatter
+If you want to test with a special formatter you can define it 
+with this parameter.
 =end
-    def logger_evaluation(log, level=nil)
+    def logger_evaluation(log, level=nil, formatter = nil)
       raise ArgumentError unless defined? log
       raise ArgumentError unless block_given?
       
@@ -136,6 +143,7 @@ independent of the value of this parameter.
         when 'Log4r::Logger'
           log.outputters << outputter = Log4r::StringOutputter.new('stringoutputter') 
           outputter.level = level if level
+          outputter.formatter = formatter if formatter
         when 'Logger'
           log.catch_messages(level)
         end
@@ -172,7 +180,13 @@ See also #logger_evaluation for more information
 
       msg = message(msg, E) { diff exp, act }
       assert exp == act, msg
-      
+
+==Define a formatter (Only Log4r)
+If you want to test with a special formatter you can define it 
+with this parameter.
+
+The default can be set with #formatter and during the setup.
+
 =end
     def assert_log(expected, msg=nil, options = {}, &block)
       if msg.is_a?(Hash)
@@ -180,7 +194,10 @@ See also #logger_evaluation for more information
         msg = nil
       end
 
-      logtext = logger_evaluation(options[:log] || @log, options[:level], &block)
+      logtext = logger_evaluation(options[:log] || @log, 
+                                    options[:level], 
+                                    options[:formatter] || @formatter, 
+                                    &block)
         
       err_msg = Regexp === expected ? :assert_match : :assert_equal
       send err_msg, expected, logtext, message(msg) { "Logger #{options[:log] || @log} logs unexpected messages" } 

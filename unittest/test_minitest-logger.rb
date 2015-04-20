@@ -15,7 +15,7 @@ class Test_minitest_logger_with_Logger_format < MiniTest::Test
       def setup
         @log = Logger.new(IO.new(File::RDONLY,'w'))
         @log.level = Logger::INFO
-        #Same format as Logger
+        #Same format as Log4r
         @log.formatter = proc{ |serverity, time, progname, msg|
             "%5s log: %s\n" % [serverity, msg]
         }

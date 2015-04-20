@@ -112,3 +112,4 @@ Versions:
 * Initial version
 
 0.1.1
+* Add option formatter for log4r

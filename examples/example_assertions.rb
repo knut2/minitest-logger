@@ -72,6 +72,12 @@ LOG
     }
   end
 
+class MyFormatter < Log4r::BasicFormatter
+  def format(event)
+    event.data
+  end
+end
+
 =begin rdoc
 Make tests of Module TestExamples with Log4r::Logger-instance.
 =end
@@ -81,7 +87,17 @@ Make tests of Module TestExamples with Log4r::Logger-instance.
       @log = Log4r::Logger.new('log')
       @log.level = Log4r::INFO
       #~ @log.level = Log4r::WARN
-    end    
+    end
+    #Test for changed formatter
+    def test_formatter
+      @formatter = :xx
+      assert_raises(TypeError){
+        assert_log(" INFO log: Hello World\n"){ @log.info("Hello World") }
+      }
+      @formatter = MyFormatter
+      assert_log("Hello World"){ @log.info("Hello World") }
+    end
+    
   end
 
 =begin rdoc

@@ -10,6 +10,15 @@ $:.unshift('../lib')
 #~ require 'minitest-logger'
 require 'minitest/log4r'
 
+
+class MyFormatter < Log4r::BasicFormatter
+  def format(event)
+    "Other formatter: %s" % event.data
+  end
+end
+
+
+
 class Test_minitest_log4r < MiniTest::Test
       def setup
         @log = Log4r::Logger.new('log')
@@ -35,7 +44,19 @@ class Test_minitest_log4r < MiniTest::Test
           @log.warn("Hello World")
         }
       end
-      
+
+      def test_formatter
+        @formatter = MyFormatter  #Replace formatter
+        assert_log("Other formatter: Hello World"){ 
+          @log.warn("Hello World")
+        }
+      end
+      def test_formatter_option        
+        assert_log("Other formatter: Hello World", :formatter => MyFormatter  ){ #Replace formatter
+          @log.warn("Hello World")
+        }
+      end
+
       def test_regexp
         assert_log(/Hello World/){ @log.info("Hello World") }
         assert_log(/Hello/){ @log.info("Hello World") }
