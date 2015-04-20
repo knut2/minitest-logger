@@ -15,7 +15,7 @@ require 'knut-gempackager'
 require '../knut_pw.rb'
 $:.unshift('lib')
 require 'minitest-logger'
-$minitest_logger_version = "0.1.1.beta"
+$minitest_logger_version = "0.1.1"
 Minitest::Logger_VERSION = $minitest_logger_version #while it is beta
 
 
@@ -64,7 +64,7 @@ Supports Logger and Log4r::Logger.
   }
   
   #~ s.add_dependency('') 
-  s.add_dependency('minitest','>= 0') #tested with "5.5.1" (rb1.9.3 + rb 2.1.5)
+  s.add_dependency('minitest', '>= 0') #tested with "5.5.1" (rb1.9.3 + rb 2.1.5)
   #~ s.add_dependency('log4r')
   
   #~ s.add_development_dependency()
@@ -91,14 +91,14 @@ end
 
 #~ desc "Gem minitest-logger"
 #~ task :default => :check
-task :default => :test
-#~ task :default => :gem
-#~ task :default => :install
+#~ task :default => :test
+task :default => :gem
+task :default => :install
 #~ task :default => :hanna
 #~ task :default => :rdoc_local
 #~ task :default => :links
 #~ task :default => :ftp_rdoc
-#~ task :default => :push
+task :default => :push
 
 
 if $0 == __FILE__
